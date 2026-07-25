@@ -10,27 +10,44 @@ struct DishDetails: View {
     let dish: Dish
 
     var body: some View {
-        VStack(spacing: 16) {
-            AsyncImage(url: URL(string: dish.image ?? "")) { image in
-                image
-                    .resizable()
-                    .scaledToFit()
-            } placeholder: {
-                ProgressView()
+        ScrollView {
+            VStack(alignment: .leading, spacing: 0) {
+                AsyncImage(url: URL(string: dish.image ?? "")) { image in
+                    image
+                        .resizable()
+                        .scaledToFill()
+                } placeholder: {
+                    Color.llCloud
+                }
+                .frame(height: 260)
+                .frame(maxWidth: .infinity)
+                .clipped()
+
+                VStack(alignment: .leading, spacing: 14) {
+                    if let category = dish.category, !category.isEmpty {
+                        Text(category.uppercased())
+                            .font(.llCaption)
+                            .kerning(1.5)
+                            .foregroundStyle(Color.llGreen)
+                    }
+
+                    Text(dish.title ?? "")
+                        .font(.llSubDisplay)
+                        .foregroundStyle(Color.llCharcoal)
+
+                    Text("$\(dish.price ?? "")")
+                        .font(.llHighlight)
+                        .foregroundStyle(Color.llGreen)
+
+                    Text(dish.details ?? "")
+                        .font(.llLead)
+                        .foregroundStyle(Color.llCharcoal.opacity(0.8))
+                        .fixedSize(horizontal: false, vertical: true)
+                }
+                .padding(20)
             }
-            .frame(height: 240)
-
-            Text(dish.title ?? "")
-                .font(.largeTitle.bold())
-                .multilineTextAlignment(.center)
-
-            Text("$\(dish.price ?? "")")
-                .font(.title2)
-                .foregroundStyle(.secondary)
-
-            Spacer()
         }
-        .padding()
+        .background(.white)
         .navigationTitle(dish.title ?? "")
         .navigationBarTitleDisplayMode(.inline)
     }

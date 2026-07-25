@@ -19,13 +19,10 @@ struct Home: View {
 
             UserProfile()
                 .tabItem {
-                    Label("Profile", systemImage: "square.and.pencil")
+                    Label("Profile", systemImage: "person.crop.circle")
                 }
         }
+        .tint(Color.llGreen)
         .navigationBarBackButtonHidden(true)
     }
-}
-
-#Preview {
-    Home()
 }
