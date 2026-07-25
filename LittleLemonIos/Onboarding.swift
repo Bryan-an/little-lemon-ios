@@ -9,6 +9,7 @@ import SwiftUI
 let kFirstName = "little_lemon_first_name"
 let kLastName = "little_lemon_last_name"
 let kEmail = "little_lemon_email"
+let kIsLoggedIn = "little_lemon_is_logged_in"
 
 struct Onboarding: View {
     @State private var firstName = ""
@@ -18,12 +19,8 @@ struct Onboarding: View {
     @State private var isLoggedIn = false
 
     var body: some View {
-        NavigationView {
+        NavigationStack {
             VStack(spacing: 16) {
-                NavigationLink(destination: Home(), isActive: $isLoggedIn) {
-                    EmptyView()
-                }
-
                 Text("Register")
                     .font(.largeTitle.bold())
                     .frame(maxWidth: .infinity, alignment: .leading)
@@ -45,6 +42,7 @@ struct Onboarding: View {
                         UserDefaults.standard.set(firstName, forKey: kFirstName)
                         UserDefaults.standard.set(lastName, forKey: kLastName)
                         UserDefaults.standard.set(email, forKey: kEmail)
+                        UserDefaults.standard.set(true, forKey: kIsLoggedIn)
                         showError = false
                         isLoggedIn = true
                     } else {
@@ -64,6 +62,14 @@ struct Onboarding: View {
             }
             .textFieldStyle(.roundedBorder)
             .padding()
+            .navigationDestination(isPresented: $isLoggedIn) {
+                Home()
+            }
+            .onAppear {
+                if UserDefaults.standard.bool(forKey: kIsLoggedIn) {
+                    isLoggedIn = true
+                }
+            }
         }
     }
 
