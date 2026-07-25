@@ -10,6 +10,8 @@ import SwiftUI
 struct Menu: View {
     @Environment(\.managedObjectContext) private var viewContext
 
+    @State private var searchText = ""
+
     var body: some View {
         VStack {
             Text("Little Lemon")
@@ -22,7 +24,13 @@ struct Menu: View {
                 .font(.body)
                 .padding(.vertical, 8)
 
-            FetchedObjects { (dishes: [Dish]) in
+            TextField("Search menu", text: $searchText)
+                .textFieldStyle(.roundedBorder)
+
+            FetchedObjects(
+                predicate: buildPredicate(),
+                sortDescriptors: buildSortDescriptors()
+            ) { (dishes: [Dish]) in
                 List {
                     ForEach(dishes, id: \.self) { dish in
                         NavigationLink(destination: DishDetails(dish: dish)) {
@@ -48,6 +56,24 @@ struct Menu: View {
         .padding(.horizontal)
         .onAppear {
             getMenuData()
+        }
+    }
+
+    func buildSortDescriptors() -> [NSSortDescriptor] {
+        return [
+            NSSortDescriptor(
+                key: "title",
+                ascending: true,
+                selector: #selector(NSString.localizedStandardCompare)
+            )
+        ]
+    }
+
+    func buildPredicate() -> NSPredicate {
+        if searchText.isEmpty {
+            return NSPredicate(value: true)
+        } else {
+            return NSPredicate(format: "title CONTAINS[cd] %@", searchText)
         }
     }
 
