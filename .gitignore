@@ -1,0 +1,42 @@
+# macOS
+.DS_Store
+
+# Xcode per-user state (window layout, breakpoints, selected scheme)
+xcuserdata/
+*.xcuserstate
+*.xcuserdatad/
+
+# Build products and derived data
+build/
+DerivedData/
+*.hmap
+*.ipa
+*.dSYM
+*.dSYM.zip
+*.moved-aside
+
+# Legacy Xcode project cruft
+*.pbxuser
+!default.pbxuser
+*.mode1v3
+!default.mode1v3
+*.mode2v3
+!default.mode2v3
+*.perspectivev3
+!default.perspectivev3
+*.xcscmblueprint
+*.xccheckout
+
+# Swift Package Manager
+.build/
+.swiftpm/
+Packages/
+Package.resolved
+
+# Dependency managers (unused today, ignored if ever added)
+Pods/
+Carthage/Build/
+
+# Playgrounds
+timeline.xctimeline
+playground.xcworkspace
